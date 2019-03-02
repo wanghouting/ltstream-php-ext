@@ -1,12 +1,18 @@
 ## LOOTOM 流媒体服务第三方接入获取拉流token的laravel扩展
 ---
 
+
 ### 安装
 
-```
-composer require wanghouting/ltstream-php-ext
-```
+
+    
+    composer require wanghouting/ltstream-php-ext
+    
+
+
 ### 配置
+
+
 
 1. 注册 ServiceProvider(laravel 5.5+版本不需要手动注册):
      ```
@@ -72,7 +78,10 @@ composer require wanghouting/ltstream-php-ext
     > 然后在请求拉流的时候带上token,例如：http://127.0.0.1:8091/live/1.flv?token=生成的token
 
 
+
+
 ### 状态码说明
+
 
 
    | 状态码  |  说明                        |
