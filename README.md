@@ -3,11 +3,12 @@
 
 
 ### 安装
-
-
     
+* composer:
+    
+    ```
     composer require wanghouting/ltstream-php-ext
-    
+    ```
 
 
 ### 配置
