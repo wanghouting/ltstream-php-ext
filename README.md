@@ -34,33 +34,17 @@
     
     LTSTREAM_SECRET=您的app_secret
     ```
-4. 创建回调控制器:
+4. 添加回调路由:
 
     ```
-    <?php
+    Route::get('ltstream/callback','\LTStream\Extension\Controllers\LTStreamCallbackController@callback');
+    ```
+    注意路由地址要和在平台上注册填写的回调url保持一至，上面对应的是http://ip:port/ltstream/callback
 
-    namespace App\Http\Controllers;
-    
-    use LTStream\Extension\Traits\UseLTStreamCallback;
-    
-    class TestController extends Controller
-    {
-        use UseLTStreamCallback;
-    
-    }
-    ```
-    控制器使用 **UseLTStreamCallback trait**。注意，别忘了引入命名空间**use LTStream\Extension\Traits\UseLTStreamCallback**;
-    
-5. 添加路由:
-    ```
-    Route::get('stream/callback','TestController@callback');
-    ```
-    注意路由地址要和在平台上注册填写的回调url保持一至，上面对应的是http://ip:port/stream/callback
-
-6. 开始使用:
+5. 开始使用:
 
     ```
-    $res =  LTStream::getToken();
+    $res =   \LTStream\Extension\Facades\LTStream::getToken();
     ```
     
     > 返回结果打印

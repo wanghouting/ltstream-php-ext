@@ -38,12 +38,10 @@ class LaravelServiceProvider extends  ServiceProvider
             ]);
         }
 //        elseif ($this->app instanceof LumenApplication) {
-//            $this->app->configure('api_auth');
+//            $this->app->configure('ltstream');
 //        }
         $this->mergeConfigFrom($configSource, 'ltstream');
-//        $this->commands([
-//            Command::class,
-//        ]);
+
     }
 
 
