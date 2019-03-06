@@ -1,4 +1,4 @@
-## LOOTOM 流媒体服务第三方接入获取拉流token的laravel扩展
+## LOOTOM 流媒体服务第三方接入获取拉流url的laravel扩展
 ---
 
 
@@ -42,28 +42,19 @@
     注意路由地址要和在平台上注册填写的回调url保持一至，上面对应的是http://ip:port/ltstream/callback
 
 5. 开始使用:
-
-    ```
-    $res =   \LTStream\Extension\Facades\LTStream::getToken();
-    ```
     
-    > 返回结果打印
-    
-    ```
-    array:3 [▼
-      "code" => 200
-      "data" => array:2 [▼
-        "expire" => 1551545254300
-        "token" => "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBfYWNjZXNzX2tleSI6Ik9UWTM4ZGluc3hDSE1SVzEiLCJleHBpcmUiOjE1NTE1NDUyNTQzMDAsIm5hbWUiOiJ0ZXN0In0=.Nv26d314tS/A/GYFxBkPuL ▶"
-      ]
-      "message" => "200 OK"
-    ]
+    ```php
+    $HttpFlvLiveUrl =   \LTStream\Extension\Facades\LTStream::getMainFlvLiveUrl($code);
     ```
     
-    > 然后在请求拉流的时候带上token,例如：http://127.0.0.1:8091/live/1.flv?token=生成的token
-    
-    > 支持主流(type=1,默认)/辅流(type=2):例如:http://127.0.0.1:8091/live/1.flv?type=2&token=生成的token
-
+    > 方法说明:
+     
+     *  string getMainFlvLiveUrl($code)     : 获取http-flv直播流主码流地址
+     
+     *  string getMainTsLiveUrl($code)      : 获取http-ts直播流主码流地址
+     *  string getSubFlvLiveUrl($code)      : 获取http-flv直播流辅码流地址
+     *  string getSubTsLiveUrl($code)       : 获取http-ts直播流辅码流地址
+        
 
 ### 功能清单
     
@@ -76,6 +67,8 @@
   - 支持主流/辅流; 
   
   - 支持按需拉流;  
+  
+  
 
 ### 状态码说明
 

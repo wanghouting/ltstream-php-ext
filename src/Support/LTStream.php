@@ -3,6 +3,7 @@ namespace LTStream\Extension\Support;
 
 use Illuminate\Support\Facades\Cache;
 use LTStream\Extension\Exception\LTStreamNetworkingException;
+use LTStream\Extension\Exception\LTStreamTokenException;
 
 /**
  * Class LTStream
@@ -32,9 +33,8 @@ class LTStream {
      * @return mixed
      * @throws LTStreamNetworkingException
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @deprecated please using LTStream\Extension\Facades\LTStream::getToken()
      */
-    public function getToken() {
+    private function getToken() {
         try{
             return \GuzzleHttp\json_decode($this->httpClient->request("post",'/api/third/get_token',[
                 'form_params' =>['signature'=> $this->signature()]
@@ -42,6 +42,72 @@ class LTStream {
         }catch (\Exception $e){
             throw new LTStreamNetworkingException("LTStream平台地址:" .$this->config['server'] . ",请求超时");
         }
+    }
+
+    /**
+     * @param $code
+     * @param int $type
+     * @param string $ext
+     * @return string
+     * @throws LTStreamNetworkingException
+     * @throws LTStreamTokenException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function getLiveUrl($code,$type=1, $ext = 'flv'){
+        $token = $this->getToken();
+        if($token['code'] == 200){
+            return $this->config['server'] .'/live/'.$code .'.'.$ext .'?type='.$type.'&token='.$token['data']['token'];
+        }else{
+            throw new LTStreamTokenException("Token获取失败:".$token['message']);
+        }
+    }
+
+    /**
+     * 获取ts辅流播放地址
+     * @param $code
+     * @return string
+     * @throws LTStreamNetworkingException
+     * @throws LTStreamTokenException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getMainFlvLiveUrl($code){
+        return $this->getLiveUrl($code);
+    }
+
+    /**
+     * 获取ts主流播放地址
+     * @param $code
+     * @return string
+     * @throws LTStreamNetworkingException
+     * @throws LTStreamTokenException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getMainTsLiveUrl($code){
+        return $this->getLiveUrl($code,1,'ts');
+    }
+
+    /**
+     * 获取flv辅流播放地址
+     * @param $code
+     * @return string
+     * @throws LTStreamNetworkingException
+     * @throws LTStreamTokenException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getSubFlvLiveUrl($code){
+        return $this->getLiveUrl($code,2);
+    }
+
+    /**
+     * 获取ts辅流播放地址
+     * @param $code
+     * @return string
+     * @throws LTStreamNetworkingException
+     * @throws LTStreamTokenException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getSubTsLiveUrl($code){
+        return $this->getLiveUrl($code,2,'ts');
     }
 
     /**
@@ -53,6 +119,7 @@ class LTStream {
         $md5Str = md5($signature.$this->config['app_secret']);
         return $signature .'.'.$md5Str;
     }
+
 
     /**
      * 生成payload
