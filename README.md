@@ -51,11 +51,307 @@
      
      *  string getMainFlvLiveUrl($code)     : 获取http-flv直播流主码流地址
      
-     *  string getMainTsLiveUrl($code)      : 获取http-ts直播流主码流地址
-     *  string getSubFlvLiveUrl($code)      : 获取http-flv直播流辅码流地址
-     *  string getSubTsLiveUrl($code)       : 获取http-ts直播流辅码流地址
+        - 请求
         
-
+           | 参数  |  说明                        |
+           | :-----: | :----:                   |
+           | $code  | 设备code                   |
+           
+        - 返回值 
+           
+            ```
+            http://192.168.88.103:8091/live/D24FF8DAF7334244AF4C8D57962AD798.flv?type=1&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBfYWNjZXNzX2tleSI6IjNiOTlhYzg1YWM1MTRkZWQiLCJleHBpcmUiOjE1NTIyODU3MDU3OTcsIm5hbWUiOiLolbLmmKUifQ==.FxicWmq3z+JpkNrPa93c5YpEtVOm25h+LhF3HfM6jIY=
+            ```
+         
+     *  string getMainTsLiveUrl($code)      : 获取http-ts直播流主码流地址
+     
+         - 请求
+         
+            | 参数  |  说明                        |
+            | :-----: | :----:                   |
+            | $code  | 设备code                   |
+            
+         - 返回值 
+            
+             ```
+             http://192.168.88.103:8091/live/D24FF8DAF7334244AF4C8D57962AD798.ts?type=1&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBfYWNjZXNzX2tleSI6IjNiOTlhYzg1YWM1MTRkZWQiLCJleHBpcmUiOjE1NTIyODU3MDU3OTcsIm5hbWUiOiLolbLmmKUifQ==.FxicWmq3z+JpkNrPa93c5YpEtVOm25h+LhF3HfM6jIY=
+             ```
+     *  string getSubFlvLiveUrl($code)      : 获取http-flv直播流辅码流地址
+          - 请求
+          
+             | 参数  |  说明                        |
+             | :-----: | :----:                   |
+             | $code  | 设备code                   |
+             
+          - 返回值 
+             
+              ```
+              http://192.168.88.103:8091/live/D24FF8DAF7334244AF4C8D57962AD798.flv?type=2&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBfYWNjZXNzX2tleSI6IjNiOTlhYzg1YWM1MTRkZWQiLCJleHBpcmUiOjE1NTIyODU3MDU3OTcsIm5hbWUiOiLolbLmmKUifQ==.FxicWmq3z+JpkNrPa93c5YpEtVOm25h+LhF3HfM6jIY=
+              ```
+     
+     *  string getSubTsLiveUrl($code)       : 获取http-ts直播流辅码流地址
+        - 请求
+          
+             | 参数  |  说明                        |
+             | :-----: | :----:                   |
+             | $code  | 设备code                   |
+             
+        - 返回值 
+             
+          ```
+          http://192.168.88.103:8091/live/D24FF8DAF7334244AF4C8D57962AD798.ts?type=2&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBfYWNjZXNzX2tleSI6IjNiOTlhYzg1YWM1MTRkZWQiLCJleHBpcmUiOjE1NTIyODU3MDU3OTcsIm5hbWUiOiLolbLmmKUifQ==.FxicWmq3z+JpkNrPa93c5YpEtVOm25h+LhF3HfM6jIY=
+          ```
+          
+     * mixed  addMonitor($name,$path,$subPath,$address)  : 添加监控设备(需要拥有添加权限)
+        - 请求
+          
+             | 参数  |  说明                        |
+             | :-----: | :----:                   |
+             | $name  | 设备名称                   |
+             | $path  | 设备主码流地址                   |
+             | $subPath  | 设备辅码流地址                   |  
+             | $address  | 设备地址                   | 
+             
+        - 返回值  
+            ```
+          Array
+          (
+              [code] => 200
+              [data] => Array
+                  (
+                      [address] => 123123
+                      [code] => 08925c476fd14491881f354200101143
+                      [online] => 1
+                      [path] => rtsp://admin:12345678q@192.168.88.111:554/Streaming/Channels/001
+                      [snapshot] => 
+                      [sub_path] => rtsp://admin:12345678q@192.168.88.111:554/Streaming/Channels/002
+                  )
+          
+              [message] => 操作成功
+          )
+            ```
+            
+             | 返回值  |  说明                        |
+             | :-----: | :----:                   |
+             | address  | 设备地址                   |
+             | code  |   设备code                |
+             | online  | 设备在线状态,0离线,1在线                    |  
+             | path  | 设备主码流地址                   | 
+             | sub_path  | 设备辅码流地址                   | 
+             | snapshot  | 设备快照                   | 
+             
+     * mixed  updateMonitor($code,$name,$path,$subPath,$address)  : 更新监控设备(需要拥有更新权限)
+        - 请求
+          
+             | 参数  |  说明                        |
+             | :-----: | :----:                   |
+             | $code  | 设备code                   |
+             | $name  | 设备名称                   |
+             | $path  | 设备主码流地址                   |
+             | $subPath  | 设备辅码流地址                   |  
+             | $address  | 设备地址                   | 
+             
+        - 返回值  
+            ```
+          Array
+          (
+              [code] => 200
+              [data] => Array
+                  (
+                      [address] => 123123
+                      [code] => 08925c476fd14491881f354200101143
+                      [online] => 1
+                      [path] => rtsp://admin:12345678q@192.168.88.111:554/Streaming/Channels/001
+                      [snapshot] => 
+                      [sub_path] => rtsp://admin:12345678q@192.168.88.111:554/Streaming/Channels/002
+                  )
+          
+              [message] => 操作成功
+          )
+            ```
+            
+             | 返回值  |  说明                        |
+             | :-----: | :----:                   |
+             | address  | 设备地址                   |
+             | code  | 设备code                   |
+             | online  | 设备在线状态,0离线,1在线                   |  
+             | path  | 设备主码流地址                   | 
+             | sub_path  | 设备辅码流地址                   | 
+             | snapshot  | 设备快照                   |      
+             
+     * mixed  getMonitorList()  : 获取所有监控设备
+        - 请求
+          
+             | 参数  |  说明                        |
+             | :-----: | :----:                   |
+             
+        - 返回值  
+            ```
+            Array
+            (
+                [code] => 200
+                [data] => Array
+                    (
+                        [0] => Array
+                            (
+                                [address] => 办公室我的位置
+                                [code] => D24FF8DAF7334244AF4C8D57962AD798
+                                [online] => 1
+                                [path] => rtsp://admin:12345678q@192.168.88.164:554/Stream/Channels/001
+                                [snapshot] => 1
+                                [sub_path] => /rtsp://admin:12345678q@192.168.88.164:554/Stream/Channels/002
+                            )
+            
+                        [1] => Array
+                            (
+                                [address] => 123123
+                                [code] => 70512aa7b93d444da89549386c8ae941
+                                [online] => 1
+                                [path] => rtsp://admin:12345678q@192.168.88.111:554/Streaming/Channels/001
+                                [snapshot] => 
+                                [sub_path] => rtsp://admin:12345678q@192.168.88.111:554/Streaming/Channels/002
+                            )
+            
+                        [2] => Array
+                            (
+                                [address] => 123123
+                                [code] => 08925c476fd14491881f354200101143
+                                [online] => 1
+                                [path] => rtsp://admin:12345678q@192.168.88.111:554/Streaming/Channels/001
+                                [snapshot] => 
+                                [sub_path] => rtsp://admin:12345678q@192.168.88.111:554/Streaming/Channels/002
+                            )
+            
+                    )
+            
+                [message] => 操作成功
+            )
+            ```
+            
+             | 返回值  |  说明                        |
+             | :-----: | :----:                   |
+             | address  | 设备地址                   |
+             | code  | 设备code                   |
+             | online  | 设备在线状态,0离线,1在线                   |  
+             | path  | 设备主码流地址                   | 
+             | sub_path  | 设备辅码流地址                   | 
+             | snapshot  | 设备快照                   |  
+            
+      * mixed  getMonitorPaginate($page = 1,$pageSize = 15)  : 分页获取监控设备
+         - 请求
+           
+              | 参数  |  说明                        |
+              | :-----: | :----:                   |
+              | $page  | 第几页 (默认1)                  |
+              | $pageSize  | 每页显示条数(默认15)                  |
+              
+         - 返回值  
+             ```
+            Array
+            (
+                [code] => 200
+                [data] => Array
+                    (
+                        [list] => Array
+                            (
+                                [0] => Array
+                                    (
+                                        [address] => 办公室我的位置
+                                        [code] => D24FF8DAF7334244AF4C8D57962AD798
+                                        [online] => 1
+                                        [path] => rtsp://admin:12345678q@192.168.88.164:554/Stream/Channels/001
+                                        [snapshot] => 1
+                                        [sub_path] => /rtsp://admin:12345678q@192.168.88.164:554/Stream/Channels/002
+                                    )
+            
+                                [1] => Array
+                                    (
+                                        [address] => 123123
+                                        [code] => 70512aa7b93d444da89549386c8ae941
+                                        [online] => 1
+                                        [path] => rtsp://admin:12345678q@192.168.88.111:554/Streaming/Channels/001
+                                        [snapshot] => 
+                                        [sub_path] => rtsp://admin:12345678q@192.168.88.111:554/Streaming/Channels/002
+                                    )
+            
+                                [2] => Array
+                                    (
+                                        [address] => 123123
+                                        [code] => 08925c476fd14491881f354200101143
+                                        [online] => 1
+                                        [path] => rtsp://admin:12345678q@192.168.88.111:554/Streaming/Channels/001
+                                        [snapshot] => 
+                                        [sub_path] => rtsp://admin:12345678q@192.168.88.111:554/Streaming/Channels/002
+                                    )
+            
+                            )
+            
+                        [total] => 3
+                    )
+            
+                [message] => 操作成功
+            )
+             ```
+             
+              | 返回值  |  说明                        |
+              | :-----: | :----:                   |
+              | total  | 设备总数                   |
+              | address  | 设备地址                   |
+              | code  |   设备code                |
+              | online  | 设备在线状态,0离线,1在线                    |  
+              | path  | 设备主码流地址                   | 
+              | sub_path  | 设备辅码流地址                   | 
+              | snapshot  | 设备快照                   | 
+              
+     * deleteMonitor ($code) 删除设备(需要拥有删除权限)
+          - 请求
+                    
+               | 参数  |  说明                        |
+               | :-----: | :----:                   |
+               | $code  | 设备code                  |
+               
+          - 返回值  
+              ```   
+              Array
+              (
+                  [code] => 200
+                  [data] => null
+                  [message] => 操作成功
+              ) 
+              ```  
+     * getMonitorInfo ($code) 获取设备详细信息
+          - 请求
+                    
+               | 参数  |  说明                        |
+               | :-----: | :----:                   |
+               | $code  | 设备code                  |
+               
+          - 返回值  
+              ```   
+            Array
+            (
+                [code] => 200
+                [data] => Array
+                    (
+                        [address] => 办公室我的位置
+                        [code] => D24FF8DAF7334244AF4C8D57962AD798
+                        [online] => 1
+                        [path] => rtsp://admin:12345678q@192.168.88.164:554/Stream/Channels/001
+                        [snapshot] => 1
+                        [sub_path] => /rtsp://admin:12345678q@192.168.88.164:554/Stream/Channels/002
+                    )
+            
+                [message] => 操作成功
+            )
+              ```       
+            | 返回值  |  说明                        |
+            | :-----: | :----:                   |
+            | address  | 设备地址                   |
+            | code  |   设备code                |
+            | online  | 设备在线状态,0离线,1在线                    |  
+            | path  | 设备主码流地址                   | 
+            | sub_path  | 设备辅码流地址                   | 
+            | snapshot  | 设备快照                   |                         
 ### 功能清单
     
     
@@ -92,7 +388,7 @@
    | 1201 | 未找到码流地址                  |
    | 1202 | 拉流失败                        |
    | 2001 | 请求参数有误                    |
-
+   | 2002 | 权限不足                   | 
 
 
 

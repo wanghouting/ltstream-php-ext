@@ -45,7 +45,7 @@ class LTStream {
     }
 
     /**
-     * @param $code
+     * @param $code 设备code
      * @param int $type
      * @param string $ext
      * @return string
@@ -63,8 +63,8 @@ class LTStream {
     }
 
     /**
-     * 获取ts辅流播放地址
-     * @param $code
+     * 获取flv主流播放地址
+     * @param $code 设备code
      * @return string
      * @throws LTStreamNetworkingException
      * @throws LTStreamTokenException
@@ -76,7 +76,7 @@ class LTStream {
 
     /**
      * 获取ts主流播放地址
-     * @param $code
+     * @param $code 设备code
      * @return string
      * @throws LTStreamNetworkingException
      * @throws LTStreamTokenException
@@ -88,7 +88,7 @@ class LTStream {
 
     /**
      * 获取flv辅流播放地址
-     * @param $code
+     * @param $code 设备code
      * @return string
      * @throws LTStreamNetworkingException
      * @throws LTStreamTokenException
@@ -108,6 +108,140 @@ class LTStream {
      */
     public function getSubTsLiveUrl($code){
         return $this->getLiveUrl($code,2,'ts');
+    }
+
+    /**
+     * 增加监控设备
+     * @param $name  设备名称
+     * @param $path  设备主流
+     * @param $subPath 设备辅流
+     * @param $address 设备地址
+     * @return mixed
+     * @throws LTStreamNetworkingException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function addMonitor($name,$path,$subPath,$address){
+        try{
+            return \GuzzleHttp\json_decode($this->httpClient->request("post",'/api/third/monitor_add',[
+                'form_params' =>[
+                    'signature'=> $this->signature(),
+                    'name' => $name,
+                    'path' => $path,
+                    'sub_path' =>$subPath,
+                    'address' => $address,
+                ]
+            ])->getBody(),true);
+        }catch (\Exception $e){
+            throw new LTStreamNetworkingException("LTStream平台地址:" .$this->config['server'] . ",请求超时");
+        }
+    }
+
+    /**
+     * 更新监控设备
+     * @param $code 设备code
+     * @param $name 设备名称
+     * @param $path 设备主码流
+     * @param $subPath 设备辅流
+     * @param $address 设备地址
+     * @return mixed
+     * @throws LTStreamNetworkingException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function updateMonitor ($code,$name,$path,$subPath,$address){
+        try{
+            return \GuzzleHttp\json_decode($this->httpClient->request("post",'/api/third/monitor_update',[
+                'form_params' =>[
+                    'signature'=> $this->signature(),
+                    'code' => $code,
+                    'name' => $name,
+                    'path' => $path,
+                    'sub_path' =>$subPath,
+                    'address' => $address,
+                ]
+            ])->getBody(),true);
+        }catch (\Exception $e){
+            throw new LTStreamNetworkingException("LTStream平台地址:" .$this->config['server'] . ",请求超时");
+        }
+    }
+
+    /**
+     * 获取所有监控设备列表
+     * @return mixed
+     * @throws LTStreamNetworkingException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getMonitorList(){
+        try{
+            return \GuzzleHttp\json_decode($this->httpClient->request("post",'/api/third/monitor_list',[
+                'form_params' =>[
+                    'signature'=> $this->signature(),
+                ]
+            ])->getBody(),true);
+        }catch (\Exception $e){
+            throw new LTStreamNetworkingException("LTStream平台地址:" .$this->config['server'] . ",请求超时");
+        }
+    }
+
+    /**
+     * 分页获取监控设备
+     * @param $page 第几页
+     * @param $pageSize 每页多少条
+     * @return mixed
+     * @throws LTStreamNetworkingException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getMonitorPaginate($page = 1,$pageSize = 15){
+        try{
+            return \GuzzleHttp\json_decode($this->httpClient->request("post",'/api/third/monitor_paginate',[
+                'form_params' =>[
+                    'signature'=> $this->signature(),
+                    'page' => $page,
+                    'page_size' => $pageSize,
+                ]
+            ])->getBody(),true);
+        }catch (\Exception $e){
+            throw new LTStreamNetworkingException("LTStream平台地址:" .$this->config['server'] . ",请求超时");
+        }
+    }
+
+    /**
+     * 删除设备
+     * @param $code 设备code
+     * @return mixed
+     * @throws LTStreamNetworkingException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function deleteMonitor($code){
+        try{
+            return \GuzzleHttp\json_decode($this->httpClient->request("post",'/api/third/monitor_delete',[
+                'form_params' =>[
+                    'signature'=> $this->signature(),
+                    'code' => $code,
+                ]
+            ])->getBody(),true);
+        }catch (\Exception $e){
+            throw new LTStreamNetworkingException("LTStream平台地址:" .$this->config['server'] . ",请求超时");
+        }
+    }
+
+    /**
+     * 获取某个设备的详细信息
+     * @param $code 设备code
+     * @return mixed
+     * @throws LTStreamNetworkingException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getMonitorInfo($code){
+        try{
+            return \GuzzleHttp\json_decode($this->httpClient->request("post",'/api/third/monitor_info',[
+                'form_params' =>[
+                    'signature'=> $this->signature(),
+                    'code' => $code,
+                ]
+            ])->getBody(),true);
+        }catch (\Exception $e){
+            throw new LTStreamNetworkingException("LTStream平台地址:" .$this->config['server'] . ",请求超时");
+        }
     }
 
     /**
