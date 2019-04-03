@@ -56,7 +56,8 @@ class LTStream {
     private function getLiveUrl($code,$type=1, $ext = 'flv'){
         $token = $this->getToken();
         if($token['code'] == 200){
-            return $this->config['server'] .'/live/'.$code .'.'.$ext .'?type='.$type.'&token='.$token['data']['token'];
+            $server = isset($this->config['server_public']) ? $this->config['server_public'] : $this->config['server'];
+            return $server .'/live/'.$code .'.'.$ext .'?type='.$type.'&token='.$token['data']['token'];
         }else{
             throw new LTStreamTokenException("Token获取失败:".$token['message']);
         }
