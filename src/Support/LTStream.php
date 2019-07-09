@@ -54,6 +54,9 @@ class LTStream {
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function getLiveUrl($code,$type=1, $ext = 'flv'){
+        if($this->config['mode'] == 'local'){
+            return config('app.url').'/video/' . mt_rand(1,4).'.mp4';
+        }
         $token = $this->getToken();
         if($token['code'] == 200){
             $server = isset($this->config['server_public']) ? $this->config['server_public'] : $this->config['server'];
